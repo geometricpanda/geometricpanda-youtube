@@ -1,0 +1,33 @@
+---
+import { Icon } from 'astro-icon';
+
+
+export interface Props {
+	name: string;
+	size: string;
+	class: string;
+}
+
+const { name, size, class: className } = Astro.props;
+
+---
+    <Icon pack="mdi"
+          name={name}
+          class:list={{
+            [className]: !!className,
+            icon: true,
+            'icon--sm': size === 'sm',
+            'icon--lg': size === 'lg',
+          }}
+          class="icon" />
+
+<style>
+.icon {
+    --icon-size: 44px;
+    --icon-padding: 10px;
+    padding: var(--icon-padding);
+    width: var(--icon-size);
+    height: var(--icon-size);
+}
+
+</style>

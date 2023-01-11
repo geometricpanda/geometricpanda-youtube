@@ -1,0 +1,85 @@
+
+:root,
+::backdrop {
+    --type-font-family: Josefin Sans;
+
+    --type-font-size-T600: 1.875rem;
+    --type-font-weight-T600: 700;
+    --type-line-height-T600: 1.2em;
+
+    --type-font-size-T400: 1.25rem;
+    --type-font-weight-T400: 400;
+    --type-line-height-T400: 1.5em;
+
+    --type-font-size-T300: 1rem;
+    --type-font-weight-T300: 400;
+    --type-line-height-T300: 1.5em;
+
+    --type-font-size-T200: 0.875rem;
+    --type-font-weight-T200: 400;
+    --type-line-height-T200: 1.5em;
+
+    --color-0-raw: 0, 0, 0;
+    --color-05-raw: 22, 22, 22;
+    --color-95-raw: 233, 233, 233;
+    --color-100-raw: 255, 255, 255;
+    --color-primary-default-raw: 89, 0, 189;
+    --color-primary-accent-raw: 125, 77, 180;
+    --color-primary-highlight-raw: 220, 180, 255;
+    --color-interactive-default-raw: 192, 0, 96;
+    --color-interactive-accent-raw: 255, 255, 255;
+    --color-background-raw: 29, 188, 169;
+    --color-background-accent-raw: 32, 55, 70;
+
+    --color-fixed-magenta-raw: 192, 0, 96;
+    --color-fixed-orange-raw: 232, 75, 0;
+    --color-fixed-black-raw: 0, 0, 0;
+    --color-fixed-white-raw: 255, 255, 255;
+
+    --color-0: rgb(var(--color-0-raw));
+    --color-05: rgb(var(--color-05-raw));
+    --color-95: rgb(var(--color-95-raw));
+    --color-100: rgb(var(--color-100-raw));
+    --color-primary-default: rgb(var(--color-primary-default-raw));
+    --color-primary-accent: rgb(var(--color-primary-accent-raw));
+    --color-primary-highlight: rgb(var(--color-primary-highlight-raw));
+    --color-interactive-default: rgb(var(--color-interactive-default-raw));
+    --color-interactive-accent: rgb(var(--color-interactive-accent-raw));
+    --color-background: rgb(var(--color-background-raw));
+    --color-background-accent: rgb(var(--color-background-accent-raw));
+
+    --color-fixed-magenta: rgb(var(--color-fixed-magenta-raw));
+    --color-fixed-orange: rgb(var(--color-fixed-orange-raw));
+
+    --color-fixed-black: rgb(var(--color-fixed-black-raw));
+    --color-fixed-white: rgb(var(--color-fixed-white-raw));
+
+    --gradient-primary-fade: linear-gradient(180deg, rgba(var(--color-primary-default-raw), 1) 0%, rgba(var(--color-primary-default-raw), 0) 100%);
+
+    --elevation-low: 0 0 12px -2px rgba(var(--color-fixed-black-raw), 0.5);
+    --elevation-high: 0 4px 4px 0 rgba(var(--color-fixed-black-raw), 0.25);
+
+    --focus: 0 0 0 2px var(--color-interactive-accent), 0 0 0 4px var(--color-interactive-default);
+    --focus-outline: 2px solid transparent;
+
+    --transition-speed-medium: 100ms;
+    --transition-speed-fast: 50ms;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    :root,
+    ::backdrop {
+        --color-0-raw: 255, 255, 255;
+        --color-05-raw: 233, 233, 233;
+        --color-95-raw: 22, 22, 22;
+        --color-100-raw: 0, 0, 0;
+        --color-primary-default-raw: 151, 66, 255;
+        --color-primary-accent-raw: 178, 114, 255;
+        --color-primary-highlight-raw: 54, 2, 115;
+        --color-interactive-default-raw: 244, 36, 161;
+        --color-interactive-accent-raw: 0, 0, 0;
+        --color-background-raw: 32, 55, 70;
+        --color-background-accent-raw: 29, 188, 169;
+    }
+}

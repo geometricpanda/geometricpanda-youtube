@@ -1,0 +1,155 @@
+---
+import Icon from './Icon.astro';
+
+const links = [
+    {
+      "name": "Home",
+      "icon": "home",
+      "url": "/"
+    },
+    {
+      "name": "Playlists",
+      "icon": "youtube",
+      "url": "/playlists"
+    },
+    {
+      "name": "Blogs",
+      "icon": "pencil",
+      "url": "/blogs"
+    }
+]
+
+---
+
+<dialog id="menu" class="menu" data-menu>
+    <nav class="menu__body" data-menu-body aria-label="Site Links">
+        <div class="menu__utils">
+            <button class="menu__close" data-menu-close aria-label="Close Site Navigation">
+                <span class="menu__close-text">Close</span>
+                <Icon name="close" />
+            </button>
+        </div>
+        <ul class="menu__links">
+            {links.map(link => (
+                <li class="menu__links-item">
+                    <a class="menu__link" href={link.url}>
+                        <span class="menu__link-text">{link.name}</span>
+                        <Icon name={link.icon} class="menu__link-icon" />
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </nav>
+</dialog>
+
+
+<style>
+
+@keyframes menu-show {
+    from { transform: translateX(100%); }
+    to { transform: translateY(0%); }
+}
+
+@keyframes menu-backdrop {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.menu {
+    width: 100vw;
+    max-width: 300px;
+    min-height: 100vh;
+    max-height: 100vh;
+    inset: 0 0 0 auto;
+
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background-color: var(--color-100);
+    box-shadow: var(--elevation-low);
+    animation: menu-show var(--transition-speed-medium) linear;
+}
+
+.menu::backdrop {
+    background-color: rgba(var(--color-fixed-black-raw), 0.8);
+    animation: menu-backdrop var(--transition-speed-medium) linear;
+}
+
+.menu__utils {
+    display: flex;
+    justify-content: flex-end;
+    padding: 17px 8px 14px 0;
+    margin-inline: 24px 0;
+    border-bottom: 1px solid var(--color-95);
+}
+
+.menu__close {
+    border: 0;
+    background-color: transparent;
+    color: var(--color-0);
+    display: flex;
+    padding: 0 0 0 14px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.menu__close:focus {
+    outline-offset: 2px;
+    outline: var(--focus-outline);
+    box-shadow: var(--focus);
+}
+
+.menu__close-text {
+    font-family: var(--type-font-family);
+    font-size: var(--type-font-size-T300);
+    font-weight: var(--type-font-size-T300);
+    line-height: var(--type-line-height-T300);
+}
+
+.menu__links {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 24px;
+}
+
+.menu__links-item {
+    margin: 0;
+    padding-inline: 0 8px;
+    padding-block: 16px;
+}
+
+.menu__links-item:not(:last-child) {
+    border-bottom: 1px solid var(--color-95);
+}
+
+.menu__link {
+    display: flex;
+    font-family: var(--type-font-family);
+    font-size: var(--type-font-size-T400);
+    line-height: var(--type-line-height-T400);
+    text-decoration: none;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-0)
+}
+
+.menu__link:focus {
+    outline-offset: 2px;
+    outline: var(--focus-outline);
+    box-shadow: var(--focus);
+}
+
+.menu__link-text {
+    flex-grow: 1;
+}
+
+.menu__link-icon {
+    justify-self: flex-end;
+}
+</style>
