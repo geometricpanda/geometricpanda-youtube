@@ -2,7 +2,6 @@
 import Icon from './Icon.astro';
 import logo from '../images/logo.svg';
 import Menu from '../components/Menu.astro';
-
 ---
 
 <header class="header page__header">
@@ -19,7 +18,7 @@ import Menu from '../components/Menu.astro';
 
         <div class="header__utils">
             <button class="header__hamburger" data-menu-open aria-label="Open Site Navigation">
-                <Icon name="menu"/>
+                <Icon name="menu" size="lg"/>
             </button>
         </div>
     </div>
@@ -35,7 +34,6 @@ import Menu from '../components/Menu.astro';
     const menu = document.querySelector('[data-menu]');
     const menuOpen = document.querySelector('[data-menu-open]');
     const menuClose = document.querySelector('[data-menu-close]');
-
 
     const showModal = () => {
         menu.showModal();

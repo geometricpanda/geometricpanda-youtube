@@ -10,16 +10,18 @@ export interface Props {
 const { name, size, class: className } = Astro.props;
 
 ---
-    <Icon pack="mdi"
-          name={name}
-          class:list={{
-            [className]: !!className,
-            icon: true,
-            'icon--sm': size === 'sm',
-            'icon--lg': size === 'lg',
-          }} />
+
+<Icon pack="mdi"
+      name={name}
+      class:list={{
+        [className]: !!className,
+        icon: true,
+        'icon--sm': size === 'sm',
+        'icon--lg': size === 'lg',
+  }} />
 
 <style>
+
 .icon {
     --icon-size: 44px;
     --icon-padding: 10px;

@@ -15,31 +15,31 @@ const { title } = Astro.props;
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#5900BD"/>
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#9742FF"/>
-		<title>{title}</title>
-		<link rel="icon" type="image/svg+xml" href={logo} />
-		<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"/>
-        <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"/>
-        <noscript>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"/>
-        </noscript>
-	</head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#5900BD"/>
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#9742FF"/>
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href={logo} />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"/>
+    <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"/>
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"/>
+    </noscript>
+</head>
 
-	<body class="page">
-
-	    <Header/>
-
-	    <div class="page__body">
-	        <slot />
-	    </div>
-
-		<Footer/>
-	</body>
+<body class="page">
+    <aside class="page__skiplinks">
+        <a class="page__skiplink"  href="#main">Skip to page contents</a>
+    </aside>
+    <Header/>
+    <main class="page__body" id="main">
+        <slot />
+    </main>
+    <Footer/>
+</body>
 
 </html>
 
@@ -53,6 +53,37 @@ const { title } = Astro.props;
         gap: 16px;
         background-color: var(--color-100);
         color: var(--color-0);
+    }
+
+    .page__skiplinks {
+        position: absolute;
+        top: -200vh;
+    }
+
+    .page__skiplinks:focus-within {
+        left: 0;
+        top: 0;
+        padding: 4px 8px;
+        background: var(--color-100);
+        box-shadow: var(--elevation-high);
+        z-index:101;
+    }
+
+    .page__skiplink {
+        padding: 0;
+        margin: 0;
+        color: var(--color-0);
+        font-family: var(--type-font-family);
+        font-size: var(--type-font-size-T300);
+        line-height: var(--type-line-height-T300);
+        font-weight: var(--type-font-weight-T300);
+        text-decoration: none;
+    }
+
+    .page__skiplink:focus {
+        outline: var(--focus-outline);
+        outline-offset: 2px;
+        box-shadow: var(--focus);
     }
 
     .page__body {
