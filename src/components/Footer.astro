@@ -1,0 +1,113 @@
+---
+const links = [
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "Playlists",
+      "url": "/playlists"
+    },
+    {
+      "name": "Blogs",
+      "url": "/blogs"
+    }
+]
+---
+
+<footer class="footer page__footer">
+
+    <nav class="footer__nav">
+        <ul class="footer__links">
+            {links.map(link => (
+            <li class="footer__links-item">
+                <a href={link.url} class="footer__link">{link.name}</a>
+            </li>
+            ))}
+        </ul>
+    </nav>
+
+    <aside class="footer__copyright">
+        <p class="footer__copyright-text">&copy; Copyright 2023 Jim Drury. All rights reserved.</p>
+    </aside>
+
+</footer>
+
+
+<style>
+    .footer {
+        background-color: var(--color-background);
+        display: flex;
+        gap: 16px;
+        padding-block: 24px 48px;
+        flex-direction: column;
+    }
+
+    .footer__nav,
+    .footer__copyright {
+        margin: auto;
+        width: 100%;
+        padding-inline: 8px;
+    }
+
+    .footer__copyright-text {
+        font-family: var(--type-font-family);
+        font-size: var(--type-font-size-T200);
+        line-height: var(--type-line-height-T200);
+        font-weight: var(--type-font-weight-T200);
+    }
+
+    .footer__links {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .footer__links-item {
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer__link {
+        color: var(--color-0);
+        font-family: var(--type-font-family);
+        font-size: var(--type-font-size-T300);
+        line-height: var(--type-line-height-T300);
+        font-weight: var(--type-font-weight-T300);
+    }
+
+    .footer__link:focus {
+        outline-offset: 2px;
+        outline: var(--focus-outline);
+        box-shadow: var(--focus);
+    }
+
+    @media (min-width: 48em) {
+        .footer__nav,
+        .footer__copyright  {
+            max-width: calc(768px);
+            padding-inline: 16px;
+        }
+
+        .footer__links {
+            display: flex;
+        }
+    }
+
+    @media (min-width: 64em) {
+        .footer__nav,
+        .footer__copyright  {
+            max-width: calc(1024px);
+        }
+    }
+
+    @media (min-width: 75em) {
+        .footer__nav,
+        .footer__copyright  {
+            max-width: calc(1200px);
+        }
+    }
+</style>

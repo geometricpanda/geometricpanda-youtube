@@ -1,7 +1,6 @@
 ---
 import { Icon } from 'astro-icon';
 
-
 export interface Props {
 	name: string;
 	size: string;
@@ -18,8 +17,7 @@ const { name, size, class: className } = Astro.props;
             icon: true,
             'icon--sm': size === 'sm',
             'icon--lg': size === 'lg',
-          }}
-          class="icon" />
+          }} />
 
 <style>
 .icon {
