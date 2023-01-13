@@ -20,7 +20,7 @@
     --type-font-weight-T400: var(--font-weight-medium);
     --type-line-height-T400: 1.5em;
 
-    --type-font-size-T300: 1rem;
+    --type-font-size-T300: 1.1rem;
     --type-font-weight-T300: var(--font-weight-regular);
     --type-line-height-T300: 1.5em;
 
@@ -40,10 +40,11 @@
     --color-primary-highlight-raw: 220, 180, 255;
     --color-interactive-default-raw: 192, 0, 96;
     --color-interactive-accent-raw: 255, 255, 255;
+    --color-interactive-highlight-raw: 232, 75, 0;
     --color-background-raw: 29, 188, 169;
     --color-background-accent-raw: 32, 55, 70;
 
-    --color-fixed-magenta-raw: 192, 0, 96;
+    --color-magenta-raw: 244, 36, 161;
     --color-fixed-orange-raw: 232, 75, 0;
     --color-fixed-black-raw: 0, 0, 0;
     --color-fixed-white-raw: 255, 255, 255;
@@ -54,11 +55,13 @@
     --color-90: rgb(var(--color-90-raw));
     --color-95: rgb(var(--color-95-raw));
     --color-100: rgb(var(--color-100-raw));
+    --color-magenta: rgb(var(--color-magenta-raw));
     --color-primary-default: rgb(var(--color-primary-default-raw));
     --color-primary-accent: rgb(var(--color-primary-accent-raw));
     --color-primary-highlight: rgb(var(--color-primary-highlight-raw));
     --color-interactive-default: rgb(var(--color-interactive-default-raw));
     --color-interactive-accent: rgb(var(--color-interactive-accent-raw));
+    --color-interactive-highlight: rgb(var(--color-interactive-highlight-raw));
     --color-background: rgb(var(--color-background-raw));
     --color-background-accent: rgb(var(--color-background-accent-raw));
 
@@ -73,7 +76,7 @@
 
     --container-max-width: 1200px;
     --container-narrow-max-width: 800px;
-    --container-gutter: 16px;
+    --container-gutter: 8px;
 
     --focus: 0 0 0 2px var(--color-interactive-accent), 0 0 0 4px var(--color-interactive-default);
     --focus-outline: 2px solid transparent;
@@ -84,10 +87,11 @@
 
 @media (min-width: 48em) {
     :root {
-        --container-gutter: 8px;
+        --container-gutter: 16px;
     }
 
 }
+
 @media (prefers-color-scheme: dark) {
     :root,
     ::backdrop {
@@ -97,11 +101,13 @@
         --color-90-raw: 22, 22, 22;
         --color-95-raw: 11, 11, 11;
         --color-100-raw: 0, 0, 0;
+        --color-magenta-raw: 159, 0, 88;
         --color-primary-default-raw: 151, 66, 255;
         --color-primary-accent-raw: 178, 114, 255;
         --color-primary-highlight-raw: 54, 2, 115;
         --color-interactive-default-raw: 244, 36, 161;
         --color-interactive-accent-raw: 0, 0, 0;
+        --color-interactive-highlight-raw: 251, 196, 0;
         --color-background-raw: 32, 55, 70;
         --color-background-accent-raw: 29, 188, 169;
     }

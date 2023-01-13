@@ -91,8 +91,7 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
 <style define:vars={{ background: tagBackground, backgroundAccent: tagColor }}>
 
 .video__player {
-    border-top: 16px solid var(--background, var(--color-background));
-    border-bottom: 32px solid var(--background, var(--color-background));
+    border-block: 16px solid var(--background, var(--color-magenta));
 }
 
 .video__embed {
@@ -100,7 +99,6 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
 }
 
 .video__title {
-    background: var(--color-95);
     padding: 16px var(--container-gutter) 0;
 }
 
@@ -109,9 +107,8 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 24px;
-    border-bottom: 8px solid var(--background, var(--color-background));
+    border-bottom: 8px solid var(--background, var(--color-magenta));
     padding: 16px var(--container-gutter);
-    background: var(--color-95);
 }
 
 .video__meta-key {
@@ -142,11 +139,11 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
 
 
     .video__title {
-        padding: 32px 16px 16px;
+        padding: 32px 0 16px;
     }
 
     .video__meta {
-        padding: 0 16px 32px;
+        padding: 0 0 32px;
         margin-bottom: 32px;
     }
 
