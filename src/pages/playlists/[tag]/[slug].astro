@@ -21,8 +21,6 @@ export function getStaticPaths() {
   ];
 }
 
-
-
 const { slug, tag } = Astro.params;
 
 const storyblokApi = useStoryblokApi();
@@ -37,15 +35,14 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
 
 
 <Layout title={story.name} class="video">
-    <Container size="narrow">
-        <div class="video__title">
-            <Text as="h1" size="T600">{story.name}</Text>
-        </div>
-    </Container>
-
     <Container size="narrow" gutterSm={false}>
+
         <div class="video__player">
             <YouTube id={content.video_id} class="video__embed"/>
+        </div>
+
+        <div class="video__title">
+            <Text as="h1" size="T600">{story.name}</Text>
         </div>
 
         <dl class="video__meta">
@@ -93,12 +90,8 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
 
 <style define:vars={{ background: tagBackground, backgroundAccent: tagColor }}>
 
-.video__title {
-    margin-bottom: 16px;
-}
-
 .video__player {
-    border-top: 8px solid var(--background, var(--color-background));
+    border-top: 16px solid var(--background, var(--color-background));
     border-bottom: 32px solid var(--background, var(--color-background));
 }
 
@@ -106,21 +99,21 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
     max-width: unset;
 }
 
+.video__title {
+    background: var(--color-95);
+    padding: 16px 8px 0;
+}
+
 .video__meta {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     border-bottom: 8px solid var(--background, var(--color-background));
     padding: 16px 8px;
     background: var(--color-95);
 }
 
-@media(min-width: 48em) {
-    .video__meta {
-        padding-inline: 16px;
-    }
-}
 .video__meta-key {
     width: 100px;
 }
@@ -133,19 +126,33 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
     width: 100%;
 }
 
-.video__read-more--hidden {
-    display: none;
-}
-
-.video__description-text {
-    display: inline;
-}
-
-.video__description-text--hidden {
-    display: none;
+.video__description {
+    margin-bottom: 24px;
 }
 
 .youtube-embed {
     max-width: unset;
 }
+
+@media(min-width: 48em) {
+    .video__player {
+        margin-top: 32px;
+        border-top-width: 8px;
+    }
+
+
+    .video__title {
+        padding: 32px 16px 16px;
+    }
+
+    .video__meta {
+        padding: 0 16px 32px;
+        margin-bottom: 32px;
+    }
+
+    .video__description {
+        margin-bottom: 64px;
+    }
+}
+
 </style>
