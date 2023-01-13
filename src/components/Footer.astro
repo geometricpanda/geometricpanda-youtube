@@ -1,4 +1,6 @@
 ---
+import Text from "./Text.astro";
+
 const links = [
     {
       "name": "Home",
@@ -28,7 +30,7 @@ const links = [
     </nav>
 
     <aside class="footer__copyright">
-        <p class="footer__copyright-text">&copy; Copyright 2023 Jim Drury. All rights reserved.</p>
+        <Text size="T200">&copy; Copyright 2023 Jim Drury. All rights reserved.</Text>
     </aside>
 
 </footer>
@@ -48,13 +50,6 @@ const links = [
         margin: auto;
         width: 100%;
         padding-inline: 8px;
-    }
-
-    .footer__copyright-text {
-        font-family: var(--type-font-family);
-        font-size: var(--type-font-size-T200);
-        line-height: var(--type-line-height-T200);
-        font-weight: var(--type-font-weight-T200);
     }
 
     .footer__links {

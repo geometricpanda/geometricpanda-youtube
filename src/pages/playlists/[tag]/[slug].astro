@@ -1,0 +1,151 @@
+---
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import { useStoryblokApi } from "@storyblok/astro";
+import { YouTube } from '@astro-community/astro-embed-youtube';
+
+import yt from "updated-youtube-info";
+
+
+import Layout from "../../../layouts/Layout.astro";
+import Tag from "../../../components/Tag.astro";
+import Marked from "../../../components/Marked.astro";
+import Container from "../../../components/Container.astro";
+import Text from "../../../components/Text.astro";
+import { getTagAccent, secondsToTime, addCommasToNumbers } from "../../../utils";
+
+export function getStaticPaths() {
+  return [
+    {params: {tag: 'react', slug: 'rating-the-most-popular-ui-frameworks'}},
+    {params: {tag: 'react', slug: 'add-auth-to-your-react-project'}},
+    {params: {tag: 'coding', slug: 'create-a-minimalist-website'}},
+  ];
+}
+
+
+
+const { slug, tag } = Astro.params;
+
+const storyblokApi = useStoryblokApi();
+const { data } = await storyblokApi.get(`cdn/stories/playlists/${tag}/${slug}`);
+
+const story = data.story;
+const content = story.content;
+const youtube = await yt(content.video_id);
+
+const {tagBackground,tagColor} = getTagAccent(story.tag_list);
+---
+
+
+<Layout title={story.name} class="video">
+    <Container size="narrow">
+        <div class="video__title">
+            <Text as="h1" size="T600">{story.name}</Text>
+        </div>
+    </Container>
+
+    <Container size="narrow" gutterSm={false}>
+        <div class="video__player">
+            <YouTube id={content.video_id} class="video__embed"/>
+        </div>
+
+        <dl class="video__meta">
+            <dt class="video__meta-key">
+                <Text weight="medium">Published</Text>
+            </dt>
+            <dd class="video__meta-value">
+                <Text as="time" weight="regular" datetime={youtube.datePublished}>
+                    {youtube.datePublished}
+                </Text>
+            </dd>
+            <div class="video__meta-break"></div>
+
+            <dt class="video__meta-key">
+                <Text weight="medium">Duration</Text>
+            </dt>
+            <dd class="video__meta-value">
+                <Text weight="regular">{secondsToTime(youtube.duration)}</Text>
+            </dd>
+            <div class="video__meta-break"></div>
+
+            <dt class="video__meta-key">
+                <Text weight="medium">Views</Text>
+            </dt>
+            <dd class="video__meta-value">
+                <Text weight="regular">{addCommasToNumbers(youtube.views)}</Text>
+            </dd>
+            <div class="video__meta-break"></div>
+
+            <dt class="video__meta-key">
+                <Text weight="medium">Tags</Text>
+            </dt>
+            {story.tag_list.map(tag => (
+                <dd class="video__meta-value">
+                    <Tag tag={tag}/>
+                </dd>
+            ))}
+        </dl>
+    </Container>
+
+    <Container size="narrow">
+        <Marked class="video__description" content={content.long_description} />
+    </Container>
+</Layout>
+
+<style define:vars={{ background: tagBackground, backgroundAccent: tagColor }}>
+
+.video__title {
+    margin-bottom: 16px;
+}
+
+.video__player {
+    border-top: 8px solid var(--background, var(--color-background));
+    border-bottom: 32px solid var(--background, var(--color-background));
+}
+
+.video__embed {
+    max-width: unset;
+}
+
+.video__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+    border-bottom: 8px solid var(--background, var(--color-background));
+    padding: 16px 8px;
+    background: var(--color-95);
+}
+
+@media(min-width: 48em) {
+    .video__meta {
+        padding-inline: 16px;
+    }
+}
+.video__meta-key {
+    width: 100px;
+}
+
+.video__meta-value {
+    max-width: calc(100% - 180px);
+}
+
+.video__meta-break {
+    width: 100%;
+}
+
+.video__read-more--hidden {
+    display: none;
+}
+
+.video__description-text {
+    display: inline;
+}
+
+.video__description-text--hidden {
+    display: none;
+}
+
+.youtube-embed {
+    max-width: unset;
+}
+</style>

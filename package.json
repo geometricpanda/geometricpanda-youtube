@@ -11,10 +11,15 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astro-community/astro-embed-youtube": "^0.2.1",
+    "@storyblok/astro": "^2.0.2",
     "astro": "^1.9.0",
     "astro-icon": "^0.8.0",
     "body-scroll-lock": "^4.0.0-beta.0",
-    "modern-css-reset": "^1.4.0"
+    "date-fns": "^2.29.3",
+    "marked": "^4.2.5",
+    "modern-css-reset": "^1.4.0",
+    "updated-youtube-info": "^1.4.7"
   },
   "devDependencies": {
     "postcss-import": "^15.1.0",

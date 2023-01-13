@@ -1,0 +1,42 @@
+---
+import { getTagAccent } from "../utils";
+const { tag } = Astro.props;
+const href = `/tags/${tag}`;
+const {tagBackground, tagColor} = getTagAccent([tag]);
+---
+
+<a class="tag" href={href}>
+    #{tag}
+</a>
+
+<style define:vars={{ tagBackground, tagColor }}>
+.tag {
+    display: inline-block;
+    padding: 4px 8px;
+    font-family: var(--type-font-family);
+    font-size: var(--type-font-size-T200);
+    line-height: var(--type-line-height-T200);
+    font-weight: var(--type-font-weight-T200);
+    color: var(--tagColor, var(--color-interactive-accent));
+    background: var(--tagBackground, var(--color-interactive-default));
+    clip-path:
+       polygon(
+         0 8px,                 /* top left */
+         8px 0,                 /* top left */
+         100% 0,                /* top right */
+         100% 0,                /* top right */
+         100% calc(100% - 8px), /* bottom right */
+         calc(100% - 8px) 100%, /* bottom right */
+         0 100%,                /* bottom left */
+         0 100%                 /* bottom left */
+       );
+}
+
+.tag:focus {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+    box-shadow: var(--focus);
+    clip-path: none;
+}
+
+</style>
