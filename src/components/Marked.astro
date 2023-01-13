@@ -1,0 +1,24 @@
+---
+import {parse} from "marked";
+const { content, class:className, 'data-id': dataId } = Astro.props;
+---
+
+<div class:list={["marked", className]} data-id={dataId}>
+    <Fragment set:html={parse(content)} />
+</div>
+
+
+<style is:global>
+    .marked p,
+    .marked li {
+        font-family: var(--type-font-family);
+        font-size: var(--type-font-size-T300);
+        line-height: var(--type-line-height-T300);
+        font-weight: var(--type-font-weight-T300);
+        color: var(--color-0);
+    }
+
+    .marked > *:not(:last-child) {
+        margin-bottom: 1em;
+    }
+</style>

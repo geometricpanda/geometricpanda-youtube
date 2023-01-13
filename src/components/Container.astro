@@ -1,0 +1,47 @@
+---
+const {
+    size,
+    class: className,
+    gutterSm = true,
+    gutterMd = true,
+    gutterLg = true,
+} = Astro.props;
+---
+<div class:list={{
+    "container": true,
+    "container--narrow": size === "narrow",
+    "container--gutter-sm": gutterSm,
+    "container--gutter-md": gutterMd,
+    "container--gutter-lg": gutterLg,
+    [className]: !!className,
+    }}>
+    <slot/>
+</div>
+
+<style>
+.container {
+    max-width: var(--container-max-width);
+    margin: auto;
+}
+
+
+.container--narrow {
+    max-width: var(--container-narrow-max-width);
+}
+
+.container--gutter-sm {
+    padding-inline: var(--container-gutter);
+}
+
+@media (min-width: 48em) {
+    .container--gutter-md {
+        padding-inline: var(--container-gutter);
+    }
+}
+
+@media (min-width: 75em) {
+    .container--gutter-lg {
+        padding-inline: var(--container-gutter);
+    }
+}
+</style>

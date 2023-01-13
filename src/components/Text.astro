@@ -1,0 +1,96 @@
+---
+const {
+    class: className,
+    as: Element = 'p',
+    size = 'T300',
+    color = 'text',
+    margin = false,
+    align = 'default',
+    weight,
+} = Astro.props
+---
+
+<Element class:list={{
+    [className]: !!className,
+    'text': true,
+    'text--align-center': align === 'center',
+    'text--color-text': color === 'text',
+    'text--size-T200': size === 'T200',
+    'text--size-T300': size === 'T300',
+    'text--size-T400': size === 'T400',
+    'text--size-T500': size === 'T500',
+    'text--size-T600': size === 'T600',
+    'text--weight-light': weight === 'light',
+    'text--weight-regular': weight === 'regular',
+    'text--weight-medium': weight === 'medium',
+    'text--weight-bold': weight === 'bold',
+    'text--margin': margin,
+}}>
+    <slot/>
+</Element>
+
+<style>
+
+.text {
+    font-family: var(--type-font-family);
+}
+
+.text--size-T200 {
+    font-size: var(--type-font-size-T200);
+    line-height: var(--type-line-height-T200);
+    font-weight: var(--type-font-weight-T200);
+}
+
+.text--size-T300 {
+    font-size: var(--type-font-size-T300);
+    line-height: var(--type-line-height-T300);
+    font-weight: var(--type-font-weight-T300);
+}
+
+.text--size-T400 {
+    font-size: var(--type-font-size-T400);
+    line-height: var(--type-line-height-T400);
+    font-weight: var(--type-font-weight-T400);
+}
+
+.text--size-T500 {
+    font-size: var(--type-font-size-T500);
+    line-height: var(--type-line-height-T500);
+    font-weight: var(--type-font-weight-T500);
+}
+
+.text--size-T600 {
+    font-size: var(--type-font-size-T600);
+    line-height: var(--type-line-height-T600);
+    font-weight: var(--type-font-weight-T600);
+}
+
+.text--weight-light {
+    font-weight: var(--font-weight-light);
+}
+
+.text--weight-medium {
+    font-weight: var(--font-weight-medium);
+}
+
+.text--weight-regular {
+    font-weight: var(--font-weight-regular);
+}
+
+.text--weight-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.text--color-text {
+    color: var(--color-0);
+}
+
+.text--align-center {
+    text-align: center;
+}
+
+.text--margin {
+    margin-bottom: 1em;
+}
+
+</style>
