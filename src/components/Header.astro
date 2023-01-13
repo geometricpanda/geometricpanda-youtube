@@ -89,7 +89,7 @@ import Menu from '../components/Menu.astro';
     margin: auto;
     position: relative;
     z-index: 1;
-    padding-inline: 8px;
+    padding-inline: var(--container-gutter);
     display: flex;
     gap: 16px;
     align-items: center;
@@ -99,10 +99,6 @@ import Menu from '../components/Menu.astro';
     .header {
         border-top: 4px solid var(--color-primary-default);
         height: 74px;
-    }
-
-    .header__container {
-        padding-inline: 16px;
     }
 }
 
