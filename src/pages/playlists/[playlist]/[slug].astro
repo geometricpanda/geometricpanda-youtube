@@ -6,7 +6,6 @@ import Tag from "../../../components/Tag.astro";
 import Marked from "../../../components/Marked.astro";
 import Container from "../../../components/Container.astro";
 import Text from "../../../components/Text.astro";
-import Hero from "../../../components/Hero.astro";
 
 import {
     getTagAccent,
@@ -26,7 +25,7 @@ export async function getStaticPaths() {
 
 const { slug, playlist } = Astro.params;
 const { story, youtube } = await getVideo(playlist, slug);
-const {tagBackground,tagColor} = getTagAccent(story.tag_list);
+const { tagBackground, tagColor } = getTagAccent(story.tag_list);
 
 ---
 
@@ -36,12 +35,16 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
         class="video"
         canonical={story.full_slug}>
 
-    <Hero title={story.name}/>
-
     <Container size="narrow" gutterSm={false}>
 
         <div class="video__player">
-            <YouTube id={story.content.video_id} class="video__embed"/>
+            <YouTube id={story.content.video_id}
+                     poster={youtube.thumbnailUrl}
+                     class="video__embed"/>
+        </div>
+
+        <div class="video__title">
+            <Text as="h1" size="T600" color="inherit">{story.name}</Text>
         </div>
 
         <dl class="video__meta">
@@ -53,92 +56,96 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
                     {youtube.datePublished}
                 </Text>
             </dd>
-            <div class="video__meta-break"></div>
 
             <dt class="video__meta-key">
-                <Text weight="medium">Duration</Text>
+                <Text weight="medium" size="T200">Duration</Text>
             </dt>
             <dd class="video__meta-value">
-                <Text weight="regular">{secondsToTime(youtube.duration)}</Text>
+                <Text size="T200">{secondsToTime(youtube.duration)}</Text>
             </dd>
-            <div class="video__meta-break"></div>
 
             <dt class="video__meta-key">
-                <Text weight="medium">Views</Text>
+                <Text weight="medium" size="T200">Views</Text>
             </dt>
             <dd class="video__meta-value">
-                <Text weight="regular">{addCommasToNumbers(youtube.views)}</Text>
+                <Text size="T200">{addCommasToNumbers(youtube.views)}</Text>
             </dd>
-            <div class="video__meta-break"></div>
 
             <dt class="video__meta-key">
-                <Text weight="medium">Tags</Text>
+                <Text weight="medium" size="T200">Tags</Text>
             </dt>
-
+            <dd class="video__meta-value video__meta-value--tags">
             {story.tag_list.map(tag => (
-            <dd class="video__meta-value">
-                <Tag tag={tag}/>
-            </dd>
+                    <Tag tag={tag}/>
             ))}
+            </div>
         </dl>
-    </Container>
 
-    <Container size="narrow">
         <Marked class="video__description"
                 content={story.content.long_description}/>
+
     </Container>
+
 </Layout>
 
 
 <style define:vars={{ background: tagBackground, backgroundAccent: tagColor }}>
 
 .video__player {
-    border-block: 16px solid var(--background, var(--color-magenta));
+    border: 2px solid var(--background, var(--color-magenta));
+    border-top-width: 16px;
+    border-inline-width: 0;
 }
 
 .video__embed {
     max-width: unset;
 }
 
+.video__title {
+    background-color: var(--background, var(--color-magenta));
+    color: var(--backgroundAccent, var(--color-0));
+}
+
 .video__meta {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 100px 1fr;
     gap: 8px;
-    margin-bottom: 24px;
-    border-bottom: 8px solid var(--background, var(--color-magenta));
-    padding: 16px var(--container-gutter);
+    border-bottom: 2px solid var(--background, var(--color-magenta));
+    background-color: var(--color-95);
 }
 
-.video__meta-key {
-    width: 100px;
-}
-
-.video__meta-value {
-    max-width: calc(100% - 180px);
-}
-
-.video__meta-break {
-    width: 100%;
-}
-
+.video__title,
+.video__meta,
 .video__description {
-    margin-bottom: 24px;
+    padding-inline: var(--container-gutter);
+    padding-block: 16px;
+}
+
+.video__meta-value--tags {
+    display: flex;
+    gap: 8px;
 }
 
 @media(min-width: 48em) {
-    .video__player {
-        margin-top: 32px;
-        border-top-width: 8px;
-    }
 
-    .video__meta {
-        padding-block: 32px;
-        margin-bottom: 32px;
+    .video {
+        padding-top: 32px;
     }
 
     .video__description {
-        margin-bottom: 64px;
+        padding-inline: 0;
     }
+
+    .video__title,
+    .video__description {
+    }
+
+    .video__title,
+    .video__meta,
+    .video__description {
+        padding-block: 24px;
+    }
+
 }
 
 </style>
