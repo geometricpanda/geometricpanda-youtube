@@ -3,6 +3,7 @@ import Layout from "../../../layouts/Layout.astro";
 import Container from "../../../components/Container.astro";
 import Text from "../../../components/Text.astro";
 import VideoCard from "../../../components/VideoCard.astro";
+import Hero from "../../../components/Hero.astro";
 
 import {
     getPlaylists,
@@ -24,11 +25,7 @@ const videos = await getPlaylistVideos(Astro.params.playlist);
 ---
 <Layout title={pageTitle(playlist.name, 'Playlist')}>
 
-    <Container class="title">
-        <Text as="h1" size="T600" align="center">
-            {playlist.name}
-        </Text>
-    </Container>
+    <Hero title={playlist.name} context="Playlist"/>
 
     <Container gutterSm={false}>
         <ul class="videos">
@@ -57,7 +54,8 @@ const videos = await getPlaylistVideos(Astro.params.playlist);
 
     @media (min-width: 48em) {
         .videos {
-            column-gap: var(--container-gutter);
+            padding-block: 24px;
+            gap: var(--container-gutter);
         }
     }
 

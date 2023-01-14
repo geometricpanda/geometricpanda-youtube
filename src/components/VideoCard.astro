@@ -66,14 +66,16 @@ const { tagBackground, tagColor } = getTagAccent(story.tag_list);
     display: block;
     position: relative;
     color: var(--color-fixed-white);
-    border-width: 16px 2px 2px;
+    border-width: 16px 0 2px;
     border-style: solid;
     border-color: var(--featured-color);
     background: var(--color-fixed-black);
 }
 
-.video--featured .video__head {
-
+@media (min-width: 48em) {
+    .video__head {
+        border-inline-width: 2px;
+    }
 }
 
 .video__head-img {
