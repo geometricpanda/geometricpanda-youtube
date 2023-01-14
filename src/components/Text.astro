@@ -1,6 +1,7 @@
 ---
 const {
     class: className,
+    role,
     as: Element = 'p',
     size = 'T300',
     color = 'text',
@@ -21,12 +22,14 @@ const {
     'text--size-T400': size === 'T400',
     'text--size-T500': size === 'T500',
     'text--size-T600': size === 'T600',
+    'text--size-T700': size === 'T700',
+    'text--size-inherit': size === 'inherit',
     'text--weight-light': weight === 'light',
     'text--weight-regular': weight === 'regular',
     'text--weight-medium': weight === 'medium',
     'text--weight-bold': weight === 'bold',
     'text--margin': margin,
-}}>
+}} role={role}>
     <slot/>
 </Element>
 
@@ -64,6 +67,18 @@ const {
     font-size: var(--type-font-size-T600);
     line-height: var(--type-line-height-T600);
     font-weight: var(--type-font-weight-T600);
+}
+
+.text--size-T700 {
+    font-size: var(--type-font-size-T700);
+    line-height: var(--type-line-height-T700);
+    font-weight: var(--type-font-weight-T700);
+}
+
+.text--size-inherit {
+    font-size: inherit;
+    line-height: 1em;
+    font-weight: inherit;
 }
 
 .text--weight-light {

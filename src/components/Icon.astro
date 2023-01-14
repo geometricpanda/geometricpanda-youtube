@@ -13,6 +13,8 @@ const { name, size, class: className } = Astro.props;
 
 <Icon pack="mdi"
       name={name}
+      role="img"
+      aria-hidden="true"
       class:list={{
         [className]: !!className,
         icon: true,

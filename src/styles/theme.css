@@ -8,6 +8,10 @@
     --font-weight-regular: 400;
     --font-weight-light: 300;
 
+    --type-font-size-T700: 2.5rem;
+    --type-font-weight-T700: var(--font-weight-bold);
+    --type-line-height-T700: 1.2em;
+
     --type-font-size-T600: 1.875rem;
     --type-font-weight-T600: var(--font-weight-bold);
     --type-line-height-T600: 1.2em;

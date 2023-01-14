@@ -1,0 +1,71 @@
+---
+import Text from './Text.astro';
+import Container from './Container.astro';
+
+const {title, context} = Astro.props;
+---
+
+<div class="hero">
+    <Container class="hero__container">
+        <div class="hero__title">
+            <Text size="T700" as="h1" color="inherit" weight="bold">{title}</Text>
+            {context && (
+                <Text size="T500" as="h2" color="inherit" weight="light">{context}</Text>
+            )}
+        </div>
+        <div class="hero__context" aria-hidden="true">
+            <Text size="inherit" role="image" color="inherit">{context || title}</Text>
+        </div>
+    </Container>
+</div>
+
+<style>
+
+.hero {
+    background-color: var(--color-primary-default);
+    border-block: 8px solid var(--color-primary-highlight);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero:before,
+.hero:after {
+    content: '';
+    display: block;
+    height: 0;
+    border-bottom: 8px solid var(--color-primary-accent);
+    position: relative;
+    z-index: 2;
+}
+
+
+.hero__container {
+    padding-block: 48px;
+    max-width: 1024px;
+}
+
+.hero__title {
+    color: var(--color-primary-highlight);
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    text-align: center;
+}
+
+.hero__context {
+    color: var(--color-100);
+    position: absolute;
+    z-index: 1;
+    font-size: 200px;
+    font-weight: var(--font-weight-bold);
+    opacity: 0.15;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0) 85%);
+}
+
+</style>

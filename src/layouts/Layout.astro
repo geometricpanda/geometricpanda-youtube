@@ -17,6 +17,7 @@ const { title, class: className, canonical } = Astro.props;
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="/"/>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
@@ -35,16 +36,26 @@ const { title, class: className, canonical } = Astro.props;
 
 <body class="page">
     <aside class="page__skiplinks">
-        <a class="page__skiplink"  href="#main">Skip to page contents</a>
+        <button class="page__skiplink" id="skiplink">Skip to page contents</a>
     </aside>
     <Header/>
-    <main class:list={["page__body",className]} id="main">
+    <main class:list={["page__body",className]} id="main" tabindex="-1">
         <slot />
     </main>
     <Footer/>
 </body>
 
 </html>
+
+<script>
+
+const main = document.getElementById('main');
+const skiplink = document.getElementById('skiplink');
+
+const onClick = () => main.focus();
+skiplink.addEventListener('click', onClick);
+
+</script>
 
 
 <style>
@@ -55,6 +66,10 @@ const { title, class: className, canonical } = Astro.props;
         min-height: 100vh;
         background-color: var(--color-100);
         color: var(--color-0);
+    }
+
+    .page:focus {
+        outline: none;
     }
 
     .page__skiplinks {

@@ -1,0 +1,78 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Container from "../../../components/Container.astro";
+import Hero from "../../../components/Hero.astro";
+import Text from "../../../components/Text.astro";
+import VideoCard from "../../../components/VideoCard.astro";
+
+import {
+    getPlaylists,
+    getPlaylistVideos,
+    getPlaylist,
+    pageTitle,
+} from "../../../utils";
+
+export async function getStaticPaths() {
+    const playlists = await getPlaylists();
+    return playlists
+        .map(({slug})=> slug.split('/'))
+        .map(([playlists, playlist]) => ({params: { playlist }}));
+}
+
+const playlist = await getPlaylist(Astro.params.playlist);
+const videos = await getPlaylistVideos(Astro.params.playlist);
+
+---
+<Layout title={pageTitle(playlist.name, 'Playlist')}>
+
+    <Hero title={playlist.name} context="Playlist"/>
+
+    <Container gutterSm={false}>
+        <ul class="videos">
+            {videos.map(({youtube, story}) => (
+            <li class="videos__item">
+                <VideoCard video={youtube} story={story}/>
+            </li>
+            ))}
+        </ul>
+    </Container>
+
+</Layout>
+
+<style>
+    .title {
+        margin-block: 32px;
+    }
+
+    .videos {
+        display: grid;
+        grid-template-columns: 1fr;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    @media (min-width: 48em) {
+        .videos {
+            padding-block: 24px;
+            gap: var(--container-gutter);
+        }
+    }
+
+    .videos__item {
+        margin: 0;
+        padding: 0;
+    }
+
+    @media (min-width: 48em) {
+        .videos {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (min-width: 64em) {
+        .videos {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+</style>

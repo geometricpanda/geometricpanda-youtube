@@ -1,5 +1,4 @@
 ---
-import Tag from "./Tag.astro";
 import Text from "./Text.astro";
 import Icon from './Icon.astro';
 import Marked from "./Marked.astro";
@@ -7,13 +6,13 @@ import VisuallyHidden from "./VisuallyHidden.astro";
 
 import { secondsToTime, getTagAccent } from "../utils";
 
-const {story, video, tag} = Astro.props;
-const {tagBackground, tagColor} = getTagAccent(story.tag_list);
+const { story, video } = Astro.props;
+const { tagBackground, tagColor } = getTagAccent(story.tag_list);
 ---
 
 <div class:list={{"video": true, "video--featured": story.content.featured }}>
 
-    <a href={`/playlists/${tag}/${story.slug}`} class="video__head">
+    <div class="video__head">
         <img class="video__head-img" src={video.thumbnailUrl} alt={story.name}/>
         <div class="video__head-icon">
             <Icon size="2xl" name="youtube"/>
@@ -36,15 +35,11 @@ const {tagBackground, tagColor} = getTagAccent(story.tag_list);
     </div>
 
     <div class="video__foot">
-        <a class="video__watch" href={`/playlists/${tag}/${story.slug}`}>
+        <a class="video__watch" href={story.full_slug}>
             <Icon size="sm" name="play"/>
             Watch
             <VisuallyHidden>{story.name}</VisuallyHidden>
         </a>
-
-        <div class="video__tags">
-            {story.tag_list.map(tag => (<Tag tag={tag}/>))}
-        </div>
     </di>
 
 </div>
@@ -58,21 +53,12 @@ const {tagBackground, tagColor} = getTagAccent(story.tag_list);
     flex-direction: column;
     gap: 8px;
     height: 100%;
-    padding-bottom: 24px;
-}
-
-@media (min-width: 48em) {
-    .video {
-        border-style: solid;
-        border-color: transparent;
-        border-width: 16px 0 4px;
-    }
+    position: relative;
+    --featured-color: var(--color-primary-default);
 }
 
 .video--featured {
-    border-style: solid;
-    border-color: var(--videoBackground, var(--color-interactive-default));
-    border-width: 16px 0 4px;
+    --featured-color: var(--videoBackground, var(--color-interactive-default));
 }
 
 
@@ -80,18 +66,14 @@ const {tagBackground, tagColor} = getTagAccent(story.tag_list);
     display: block;
     position: relative;
     color: var(--color-fixed-white);
-    background-color: var(--color-fixed-black);
-    transition-property: background, color;
-    transition-duration: var(--transition-speed-medium);
-    transition-timing-function: ease-in;
+    border-width: 16px 2px 2px;
+    border-style: solid;
+    border-color: var(--featured-color);
+    background: var(--color-fixed-black);
 }
 
-.video__head:focus {
-    outline: var(--focus-outline);
-    outline-offset: 2px;
-    box-shadow: var(--focus);
-    color: var(--color-interactive-accent);
-    background-color: var(--color-interactive-default);
+.video--featured .video__head {
+
 }
 
 .video__head-img {
@@ -99,14 +81,13 @@ const {tagBackground, tagColor} = getTagAccent(story.tag_list);
     transition-timing-function: ease-in;
     transition-property: opacity;
     opacity: 0.4;
-}
-
-.video__head:focus .video__head-img {
-    opacity: 0.1;
+    position: relative;
+    z-index: 1;
 }
 
 .video__head-icon {
     position: absolute;
+    z-index: 2;
     inset: 0;
     display: flex;
     flex-direction: column;
@@ -134,6 +115,8 @@ const {tagBackground, tagColor} = getTagAccent(story.tag_list);
     display: flex;
     flex-direction: column;
     gap: 8px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--featured-color);
 }
 
 .video__title,
@@ -148,12 +131,6 @@ const {tagBackground, tagColor} = getTagAccent(story.tag_list);
     .video__foot {
         padding-inline: 0;
     }
-}
-
-.video__tags {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
 }
 
 .video__watch {
@@ -171,11 +148,17 @@ const {tagBackground, tagColor} = getTagAccent(story.tag_list);
     max-width: min-content;
 }
 
-.video__watch:focus {
+.video__watch:before {
+    content: '';
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+}
+
+.video__watch:focus:before {
     outline: var(--focus-outline);
     outline-offset: 2px;
     box-shadow: var(--focus);
-    color: var(--color-interactive-accent);
-    background-color: var(--color-interactive-default);
 }
 </style>

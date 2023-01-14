@@ -1,52 +1,47 @@
 ---
-import { useStoryblokApi } from "@storyblok/astro";
 import { YouTube } from '@astro-community/astro-embed-youtube';
-import yt from "updated-youtube-info";
-
 
 import Layout from "../../../layouts/Layout.astro";
 import Tag from "../../../components/Tag.astro";
 import Marked from "../../../components/Marked.astro";
 import Container from "../../../components/Container.astro";
 import Text from "../../../components/Text.astro";
-import { getTagAccent, secondsToTime, addCommasToNumbers, getCanonicalTag } from "../../../utils";
+import Hero from "../../../components/Hero.astro";
+
+import {
+    getTagAccent,
+    secondsToTime,
+    addCommasToNumbers,
+    getVideos,
+    getVideo,
+    pageTitle,
+} from "../../../utils";
 
 export async function getStaticPaths() {
-    const storyblokApi = useStoryblokApi();
-
-    const { data: { stories } } = await storyblokApi.get('cdn/stories', {"content_type": "video"})
-
-    return stories.reduce((acc, curr) => {
-       const paths = curr.tag_list.map(tag => ({params:{tag, slug: curr.slug}}));
-        return [...acc,...paths];
-    }, []);
+    const videos = await getVideos();
+    return videos
+        .map(({full_slug}) => full_slug.split('/'))
+        .map(([playlists, playlist, slug]) => ({ params: {playlist, slug} }));
 }
 
-const { slug, tag } = Astro.params;
-
-const storyblokApi = useStoryblokApi();
-const { data: {stories} } = await storyblokApi.get(`cdn/stories/`, {
-    "content_type": "video",
-    "with_tag": tag,
-});
-
-const story = stories.find(story => story.slug === slug);
-const content = story.content;
-const youtube = await yt(content.video_id);
-
+const { slug, playlist } = Astro.params;
+const { story, youtube } = await getVideo(playlist, slug);
 const {tagBackground,tagColor} = getTagAccent(story.tag_list);
-const canonicalTag = getCanonicalTag(story.tag_list);
+
 ---
 
-<Layout title={story.name} class="video" canonical={`playlists/${canonicalTag}/${story.slug}`}>
+
+
+<Layout title={pageTitle(story.name, 'Watch' , playlist)}
+        class="video"
+        canonical={story.full_slug}>
+
+    <Hero title={story.name}/>
+
     <Container size="narrow" gutterSm={false}>
 
         <div class="video__player">
-            <YouTube id={content.video_id} class="video__embed"/>
-        </div>
-
-        <div class="video__title">
-            <Text as="h1" size="T600">{story.name}</Text>
+            <YouTube id={story.content.video_id} class="video__embed"/>
         </div>
 
         <dl class="video__meta">
@@ -79,18 +74,21 @@ const canonicalTag = getCanonicalTag(story.tag_list);
             <dt class="video__meta-key">
                 <Text weight="medium">Tags</Text>
             </dt>
+
             {story.tag_list.map(tag => (
-                <dd class="video__meta-value">
-                    <Tag tag={tag}/>
-                </dd>
+            <dd class="video__meta-value">
+                <Tag tag={tag}/>
+            </dd>
             ))}
         </dl>
     </Container>
 
     <Container size="narrow">
-        <Marked class="video__description" content={content.long_description} />
+        <Marked class="video__description"
+                content={story.content.long_description}/>
     </Container>
 </Layout>
+
 
 <style define:vars={{ background: tagBackground, backgroundAccent: tagColor }}>
 
@@ -100,10 +98,6 @@ const canonicalTag = getCanonicalTag(story.tag_list);
 
 .video__embed {
     max-width: unset;
-}
-
-.video__title {
-    padding: 16px var(--container-gutter) 0;
 }
 
 .video__meta {
@@ -137,13 +131,8 @@ const canonicalTag = getCanonicalTag(story.tag_list);
         border-top-width: 8px;
     }
 
-
-    .video__title {
-        padding: 32px 0 16px;
-    }
-
     .video__meta {
-        padding: 0 0 32px;
+        padding-block: 32px;
         margin-bottom: 32px;
     }
 
