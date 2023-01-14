@@ -24,11 +24,11 @@ const {title, context} = Astro.props;
 .hero {
     background-color: var(--color-primary-default);
     border-block: 8px solid var(--color-primary-highlight);
+    border-top-color: var(--color-primary-accent);
     position: relative;
     overflow: hidden;
 }
 
-.hero:before,
 .hero:after {
     content: '';
     display: block;
