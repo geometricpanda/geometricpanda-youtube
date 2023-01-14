@@ -18,6 +18,8 @@ const { name, size, class: className } = Astro.props;
         icon: true,
         'icon--sm': size === 'sm',
         'icon--lg': size === 'lg',
+        'icon--xl': size === 'xl',
+        'icon--2xl': size === '2xl',
   }} />
 
 <style>
@@ -28,6 +30,23 @@ const { name, size, class: className } = Astro.props;
     padding: var(--icon-padding);
     width: var(--icon-size);
     height: var(--icon-size);
+}
+
+.icon--sm {
+    --icon-size: 24px;
+    --icon-padding: 2px;
+}
+
+.icon--lg {
+    --icon-size: 66px;
+}
+
+.icon--xl {
+    --icon-size: 88px;
+}
+
+.icon--2xl {
+    --icon-size: 110px;
 }
 
 </style>

@@ -1,8 +1,6 @@
 ---
-import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import { useStoryblokApi } from "@storyblok/astro";
 import { YouTube } from '@astro-community/astro-embed-youtube';
-
 import yt from "updated-youtube-info";
 
 
@@ -11,30 +9,36 @@ import Tag from "../../../components/Tag.astro";
 import Marked from "../../../components/Marked.astro";
 import Container from "../../../components/Container.astro";
 import Text from "../../../components/Text.astro";
-import { getTagAccent, secondsToTime, addCommasToNumbers } from "../../../utils";
+import { getTagAccent, secondsToTime, addCommasToNumbers, getCanonicalTag } from "../../../utils";
 
-export function getStaticPaths() {
-  return [
-    {params: {tag: 'react', slug: 'rating-the-most-popular-ui-frameworks'}},
-    {params: {tag: 'react', slug: 'add-auth-to-your-react-project'}},
-    {params: {tag: 'coding', slug: 'create-a-minimalist-website'}},
-  ];
+export async function getStaticPaths() {
+    const storyblokApi = useStoryblokApi();
+
+    const { data: { stories } } = await storyblokApi.get('cdn/stories', {"content_type": "video"})
+
+    return stories.reduce((acc, curr) => {
+       const paths = curr.tag_list.map(tag => ({params:{tag, slug: curr.slug}}));
+        return [...acc,...paths];
+    }, []);
 }
 
 const { slug, tag } = Astro.params;
 
 const storyblokApi = useStoryblokApi();
-const { data } = await storyblokApi.get(`cdn/stories/playlists/${tag}/${slug}`);
+const { data: {stories} } = await storyblokApi.get(`cdn/stories/`, {
+    "content_type": "video",
+    "with_tag": tag,
+});
 
-const story = data.story;
+const story = stories.find(story => story.slug === slug);
 const content = story.content;
 const youtube = await yt(content.video_id);
 
 const {tagBackground,tagColor} = getTagAccent(story.tag_list);
+const canonicalTag = getCanonicalTag(story.tag_list);
 ---
 
-
-<Layout title={story.name} class="video">
+<Layout title={story.name} class="video" canonical={`playlists/${canonicalTag}/${story.slug}`}>
     <Container size="narrow" gutterSm={false}>
 
         <div class="video__player">
@@ -125,10 +129,6 @@ const {tagBackground,tagColor} = getTagAccent(story.tag_list);
 
 .video__description {
     margin-bottom: 24px;
-}
-
-.youtube-embed {
-    max-width: unset;
 }
 
 @media(min-width: 48em) {

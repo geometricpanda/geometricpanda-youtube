@@ -12,15 +12,15 @@
     --type-font-weight-T600: var(--font-weight-bold);
     --type-line-height-T600: 1.2em;
 
-    --type-font-size-T500: 1.25rem;
+    --type-font-size-T500: 1.5rem;
     --type-font-weight-T500: var(--font-weight-medium);
-    --type-line-height-T500: 1.5em;
+    --type-line-height-T500: 1.5rem;
 
     --type-font-size-T400: 1.25rem;
     --type-font-weight-T400: var(--font-weight-medium);
-    --type-line-height-T400: 1.5em;
+    --type-line-height-T400: 1.3em;
 
-    --type-font-size-T300: 1.1rem;
+    --type-font-size-T300: 1rem;
     --type-font-weight-T300: var(--font-weight-regular);
     --type-line-height-T300: 1.5em;
 
@@ -40,12 +40,12 @@
     --color-primary-highlight-raw: 220, 180, 255;
     --color-interactive-default-raw: 192, 0, 96;
     --color-interactive-accent-raw: 255, 255, 255;
-    --color-interactive-highlight-raw: 232, 75, 0;
+    --color-interactive-highlight-raw: 197, 64, 0;
     --color-background-raw: 29, 188, 169;
     --color-background-accent-raw: 32, 55, 70;
 
     --color-magenta-raw: 244, 36, 161;
-    --color-fixed-orange-raw: 232, 75, 0;
+    --color-fixed-orange-raw: 197, 64, 0;
     --color-fixed-black-raw: 0, 0, 0;
     --color-fixed-white-raw: 255, 255, 255;
 
@@ -88,6 +88,7 @@
 @media (min-width: 48em) {
     :root {
         --container-gutter: 16px;
+        --container-gap: 32px;
     }
 
 }

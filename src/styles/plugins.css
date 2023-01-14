@@ -1,0 +1,13 @@
+.video__embed .lty-playbtn {
+    box-sizing: content-box;
+    padding: 2px;
+    background-size: 68px 48px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.video__embed .lty-playbtn:focus {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+    box-shadow: var(--focus);
+}

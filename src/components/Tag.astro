@@ -1,7 +1,8 @@
 ---
 import { getTagAccent } from "../utils";
 const { tag } = Astro.props;
-const href = `/tags/${tag}`;
+
+const href = `/playlists/${tag}`;
 const {tagBackground, tagColor} = getTagAccent([tag]);
 ---
 
@@ -18,7 +19,7 @@ const {tagBackground, tagColor} = getTagAccent([tag]);
     line-height: var(--type-line-height-T200);
     font-weight: var(--type-font-weight-T200);
     color: var(--tagColor, var(--color-interactive-accent));
-    background: var(--tagBackground, var(--color-interactive-default));
+    background: var(--tagBackground, var(--color-interactive-highlight));
     clip-path:
        polygon(
          0 8px,                 /* top left */

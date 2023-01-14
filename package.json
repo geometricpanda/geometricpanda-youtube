@@ -19,6 +19,7 @@
     "date-fns": "^2.29.3",
     "marked": "^4.2.5",
     "modern-css-reset": "^1.4.0",
+    "title-case": "^3.0.3",
     "updated-youtube-info": "^1.4.7"
   },
   "devDependencies": {

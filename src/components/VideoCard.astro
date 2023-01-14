@@ -1,0 +1,181 @@
+---
+import Tag from "./Tag.astro";
+import Text from "./Text.astro";
+import Icon from './Icon.astro';
+import Marked from "./Marked.astro";
+import VisuallyHidden from "./VisuallyHidden.astro";
+
+import { secondsToTime, getTagAccent } from "../utils";
+
+const {story, video, tag} = Astro.props;
+const {tagBackground, tagColor} = getTagAccent(story.tag_list);
+---
+
+<div class:list={{"video": true, "video--featured": story.content.featured }}>
+
+    <a href={`/playlists/${tag}/${story.slug}`} class="video__head">
+        <img class="video__head-img" src={video.thumbnailUrl} alt={story.name}/>
+        <div class="video__head-icon">
+            <Icon size="2xl" name="youtube"/>
+            <span class="video__head-runtime">
+                <Icon size="sm" name="clock"/>
+                <Text as="span" color="inherit">
+                    <VisuallyHidden>Play time:</VisuallyHidden>
+                    {secondsToTime(video.duration)}
+                </Text>
+            </span>
+        </div>
+    </div>
+
+    <div class="video__title">
+        <Text size="T400">{story.name}</Text>
+    </div>
+
+    <div class="video__body">
+        <Marked content={story.content.short_description}/>
+    </div>
+
+    <div class="video__foot">
+        <a class="video__watch" href={`/playlists/${tag}/${story.slug}`}>
+            <Icon size="sm" name="play"/>
+            Watch
+            <VisuallyHidden>{story.name}</VisuallyHidden>
+        </a>
+
+        <div class="video__tags">
+            {story.tag_list.map(tag => (<Tag tag={tag}/>))}
+        </div>
+    </di>
+
+</div>
+
+
+
+
+<style define:vars={{ videoBackground: tagBackground }}>
+.video {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    padding-bottom: 24px;
+}
+
+@media (min-width: 48em) {
+    .video {
+        border-style: solid;
+        border-color: transparent;
+        border-width: 16px 0 4px;
+    }
+}
+
+.video--featured {
+    border-style: solid;
+    border-color: var(--videoBackground, var(--color-interactive-default));
+    border-width: 16px 0 4px;
+}
+
+
+.video__head {
+    display: block;
+    position: relative;
+    color: var(--color-fixed-white);
+    background-color: var(--color-fixed-black);
+    transition-property: background, color;
+    transition-duration: var(--transition-speed-medium);
+    transition-timing-function: ease-in;
+}
+
+.video__head:focus {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+    box-shadow: var(--focus);
+    color: var(--color-interactive-accent);
+    background-color: var(--color-interactive-default);
+}
+
+.video__head-img {
+    transition-duration: var(--transition-speed-medium);
+    transition-timing-function: ease-in;
+    transition-property: opacity;
+    opacity: 0.4;
+}
+
+.video__head:focus .video__head-img {
+    opacity: 0.1;
+}
+
+.video__head-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.video__head-runtime {
+    display: flex;
+    gap: 4px;
+
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.video__title {
+    padding-top: 8px;
+}
+
+.video__body {
+    flex-grow: 1;
+}
+
+.video__foot {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.video__title,
+.video__body,
+.video__foot {
+    padding-inline: var(--container-gutter);
+}
+
+@media (min-width: 48em) {
+    .video__title,
+    .video__body,
+    .video__foot {
+        padding-inline: 0;
+    }
+}
+
+.video__tags {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.video__watch {
+    background: var(--color-interactive-default);
+    color: var(--color-interactive-accent);
+    padding: 4px 8px 4px 4px;
+    font-family: var(--type-font-family);
+    font-size: var(--type-font-size-T200);
+    line-height: var(--type-line-height-T200);
+    font-weight: var(--type-font-weight-T200);
+    text-decoration: none;
+    gap: 4px;
+    align-items: center;
+    display: inline-flex;
+    max-width: min-content;
+}
+
+.video__watch:focus {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+    box-shadow: var(--focus);
+    color: var(--color-interactive-accent);
+    background-color: var(--color-interactive-default);
+}
+</style>

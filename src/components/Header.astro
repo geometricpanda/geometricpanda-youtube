@@ -18,7 +18,7 @@ import Menu from '../components/Menu.astro';
 
         <div class="header__utils">
             <button class="header__hamburger" data-menu-open aria-label="Open Site Navigation">
-                <Icon name="menu" size="lg"/>
+                <Icon name="menu"/>
             </button>
         </div>
     </div>
@@ -102,7 +102,7 @@ import Menu from '../components/Menu.astro';
     }
 }
 
-@media (min-width: 75em) {
+@media (min-width: 64em) {
     .header__container {
         max-width: calc(1200px);
     }

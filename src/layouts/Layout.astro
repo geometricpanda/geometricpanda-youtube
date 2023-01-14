@@ -5,12 +5,13 @@ import Footer from '../components/Footer.astro';
 import logo from '../images/logo.svg';
 
 import "../styles/theme.css";
+import "../styles/plugins.css";
 
 export interface Props {
 	title: string;
 }
 
-const { title, class: className } = Astro.props;
+const { title, class: className, canonical } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -22,6 +23,8 @@ const { title, class: className } = Astro.props;
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#5900BD"/>
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#9742FF"/>
     <title>{title}</title>
+    {canonical && (<link rel="canonical" href={`https://geometricpanda.dev/${canonical}`} />)}
+
     <link rel="icon" type="image/svg+xml" href={logo} />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap"/>
     <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap"/>

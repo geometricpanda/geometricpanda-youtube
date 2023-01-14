@@ -15,6 +15,7 @@ const {
     'text': true,
     'text--align-center': align === 'center',
     'text--color-text': color === 'text',
+    'text--color-inherit': color === 'inherit',
     'text--size-T200': size === 'T200',
     'text--size-T300': size === 'T300',
     'text--size-T400': size === 'T400',
@@ -83,6 +84,10 @@ const {
 
 .text--color-text {
     color: var(--color-0);
+}
+
+.text--color-inherit {
+    color: var(--color-inherit);
 }
 
 .text--align-center {
