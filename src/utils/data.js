@@ -27,10 +27,19 @@ export const getPlaylist = async (name) => {
     return playlist;
 }
 
-export const getPlaylistVideos = async (name) => {
+export const getPlaylistVideos = async (name, per_page = 25, page = 1) => {
+
+    const path = name.startsWith(`playlists`)
+        ? name
+        : `playlists/${name}`;
+
     const {data: {stories}} = await storyblokApi.get('cdn/stories', {
-        "starts_with": `playlists/${name}/`,
-        "content_type": "video"
+        "starts_with": path,
+        "content_type": "video",
+        "sort_by": "sort_by_date",
+        "resolve_relations": "true",
+        "page": page,
+        "per_page": per_page,
     });
 
     return Promise.all(
@@ -49,7 +58,6 @@ export const getVideos = async () => {
 
     return stories;
 }
-
 
 export const getVideo = async (playlist, slug) => {
     const {data: {story}} = await storyblokApi.get(`cdn/stories/playlists/${playlist}/${slug}`, {

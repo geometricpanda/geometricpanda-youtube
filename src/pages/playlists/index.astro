@@ -1,0 +1,269 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/Container.astro";
+import Hero from "../../components/Hero.astro";
+import Text from "../../components/Text.astro";
+import Icon from "../../components/Icon.astro";
+import VideoCard from "../../components/VideoCard.astro";
+
+import {getPlaylists, getPlaylistVideos} from "../../utils";
+
+const playlists = await getPlaylists();
+
+const playlistVideos$ = playlists.map(async (playlist) => {
+    const videos = await getPlaylistVideos(playlist.slug, 5);
+    return {
+        playlist,
+        videos,
+    }
+})
+
+const playlistVideos = await Promise.all(playlistVideos$)
+    .then(playlists => playlists.filter(({videos}) => videos.length));
+
+---
+
+
+<Layout title="Playlists">
+    <Hero title="Playlists"/>
+    <Container class="playlists" gutterSm={false}>
+        {playlistVideos.map(({playlist, videos}) => (
+            <div class="playlist">
+                <Text as="h2" align="center" size="T600">{playlist.name}</Text>
+                <div class="playlist__items" data-playlist id={playlist.id}>
+                    {videos.map(({story, youtube}) => (
+                        <div class="playlist__item" data-video-id={story.id}>
+                            <VideoCard story={story} video={youtube}/>
+                        </div>
+                    ))}
+                </div>
+                <div class="playlist__toolbar">
+                    <div class="playlist__links">
+                        <a href={playlist.real_path} class="playlist__link">
+                            <Icon size="sm" name="play-box-multiple"/>
+                            View All
+                        </a>
+                    </div>
+                    <div class="playlist__pagination">
+                        <button class="playlist__pagination-button"
+                                aria-label="Back"
+                                data-playlist-control={playlist.id}
+                                data-playlist-back="true">
+                            <Icon class="playlist__pagination-button-icon" name="chevron-left"/>
+                        </button>
+                        <button class="playlist__pagination-button"
+                                aria-label="Forward"
+                                data-playlist-control={playlist.id}
+                                data-playlist-forward="true">
+                            <Icon class="playlist__pagination-button-icon" name="chevron-right"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        ))}
+    </Container>
+</Layout>
+
+<script>
+    const playlists = document.querySelectorAll('[data-playlist]');
+    const controls = document.querySelectorAll('[data-playlist-control]');
+
+    const getVideosInView = (playlist) => {
+        const {scrollLeft, scrollWidth} = playlist;
+        const scrollPaddingLeft = parseInt(getComputedStyle(playlist)['paddingLeft']);
+
+        const contentLeft = scrollLeft + scrollPaddingLeft;
+
+        const videos = Array.from(
+            document.querySelectorAll(`[data-playlist][id="${playlist.id}"] [data-video-id]`)
+        );
+
+        const currentIndex = videos.findIndex((video) => {
+            const isLeftInView = video.offsetLeft >= scrollLeft;
+            const isRightInView = video.offsetLeft + video.offsetWidth >= scrollLeft;
+            return isLeftInView && isRightInView;
+        });
+
+        const current = videos[currentIndex];
+
+        const next = currentIndex + 1 < videos.length
+            ? videos[currentIndex + 1]
+            : null;
+
+        const previous = currentIndex > 0
+            ? videos[currentIndex - 1]
+            : null;
+
+        return {
+            previous,
+            current,
+            next,
+        };
+    }
+
+    const updateControlsState = (playlist) => {
+        const forward = document.querySelector(`[data-playlist-control="${playlist.id}"][data-playlist-forward]`);
+        const back = document.querySelector(`[data-playlist-control="${playlist.id}"][data-playlist-back]`);
+
+        const {scrollLeft, scrollWidth, offsetWidth} = playlist;
+        const threshold = parseInt(getComputedStyle(playlist)['paddingLeft']);
+
+        back.disabled = (scrollLeft <= threshold);
+        forward.disabled = (scrollLeft >= (scrollWidth - offsetWidth) - threshold);
+
+    }
+
+    const onClick = ({target}) => {
+        const playlistId = target.dataset.playlistControl;
+        const playlist = document.querySelector(`[data-playlist][id="${playlistId}"]`)
+
+        const {next, previous} = getVideosInView(playlist);
+
+
+        if (target.dataset.playlistForward && next) {
+            next.scrollIntoView({inline: "start", block: 'nearest', behavior: 'smooth'});
+        }
+
+        if (target.dataset.playlistBack && previous) {
+            previous.scrollIntoView({inline: "start", block: 'nearest', behavior: 'smooth'});
+        }
+
+        updateControlsState(playlist)
+    }
+
+    const onScroll = ({target})  => {
+        updateControlsState(target);
+    }
+
+
+    controls.forEach(control => control.addEventListener('click', onClick));
+
+    playlists.forEach(playlist => {
+        playlist.addEventListener('scroll', onScroll);
+        updateControlsState(playlist)
+    });
+
+</script>
+
+<style>
+
+.playlists {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-block: 24px;
+}
+
+.playlist {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--color-95);
+}
+
+.playlist__items {
+    display: flex;
+    scroll-snap-type: x mandatory;
+    overflow-x: scroll;
+    gap: 16px;
+    position: relative;
+    padding-block: 16px;
+    background: var(--color-95);
+    border-block: 2px solid var(--color-fixed-purple);
+}
+
+.playlist__items::-webkit-scrollbar {
+    display: none;
+}
+
+.playlist__item {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+    min-width: 320px;
+    max-width: 320px;
+}
+
+@media (min-width: 48em) {
+    .playlist__items {
+        scroll-padding: 0 0 0 24px;
+        padding: 24px;
+        gap: 24px;
+    }
+
+    .playlist__item {
+        min-width: 350px;
+        max-width: 350px;
+    }
+}
+
+
+.playlist__toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: var(--container-gutter);
+    align-items: center;
+}
+
+
+@media (min-width: 48em) {
+    .playlist__toolbar {
+        padding-inline: 0;
+    }
+}
+
+.playlist__link {
+   background: var(--color-interactive-accent);
+   border: 2px solid var(--color-interactive-default);
+   color: var(--color-interactive-default);
+   padding: 10px 14px 10px 10px;
+   font-family: var(--type-font-family);
+   font-size: var(--type-font-size-T200);
+   line-height: var(--type-line-height-T200);
+   font-weight: var(--type-font-weight-T200);
+   text-decoration: none;
+   gap: 4px;
+   align-items: center;
+   display: inline-flex;
+   max-width: min-content;
+   white-space: nowrap;
+}
+
+.playlist__link:focus {
+    outline-offset: 2px;
+    outline: var(--focus-outline);
+    box-shadow: var(--focus);
+}
+
+.playlist__pagination {
+    display: flex;
+    gap: 8px;
+}
+
+.playlist__pagination-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    background: var(--color-interactive-accent);
+    border: 2px solid var(--color-interactive-default);
+    color: var(--color-interactive-default);
+}
+
+.playlist__pagination-button:focus {
+    outline-offset: 2px;
+    outline: var(--focus-outline);
+    box-shadow: var(--focus);
+}
+
+.playlist__pagination-button:disabled {
+    opacity: 0.2;
+}
+
+.playlist__pagination-button-icon {
+    pointer-events: none;
+}
+
+</style>

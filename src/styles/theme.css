@@ -49,6 +49,8 @@
     --color-background-accent-raw: 32, 55, 70;
 
     --color-magenta-raw: 244, 36, 161;
+    --color-fixed-lilac-raw: 220, 180, 255;
+    --color-fixed-purple-raw: 89, 0, 189;
     --color-fixed-orange-raw: 197, 64, 0;
     --color-fixed-black-raw: 0, 0, 0;
     --color-fixed-white-raw: 255, 255, 255;
@@ -60,15 +62,20 @@
     --color-95: rgb(var(--color-95-raw));
     --color-100: rgb(var(--color-100-raw));
     --color-magenta: rgb(var(--color-magenta-raw));
+
     --color-primary-default: rgb(var(--color-primary-default-raw));
     --color-primary-accent: rgb(var(--color-primary-accent-raw));
     --color-primary-highlight: rgb(var(--color-primary-highlight-raw));
+
     --color-interactive-default: rgb(var(--color-interactive-default-raw));
     --color-interactive-accent: rgb(var(--color-interactive-accent-raw));
     --color-interactive-highlight: rgb(var(--color-interactive-highlight-raw));
+
     --color-background: rgb(var(--color-background-raw));
     --color-background-accent: rgb(var(--color-background-accent-raw));
 
+    --color-fixed-purple: rgb(var(--color-fixed-purple-raw));
+    --color-fixed-lilac: rgb(var(--color-fixed-lilac-raw));
     --color-fixed-magenta: rgb(var(--color-fixed-magenta-raw));
     --color-fixed-orange: rgb(var(--color-fixed-orange-raw));
 
